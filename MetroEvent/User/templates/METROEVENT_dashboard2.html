@@ -565,9 +565,9 @@
 				<div style="width: 100%;">
 					<ul style="font-size: 20px; list-style: none; text-align: left; line-height: 50px; padding-left: 2%;">
 						{% for Users in userinfo %}
-						<li style="font-size: 15px;">{{Users.Firstname}} {{Users.Middlename}} {{Users.Lastname}}</li>
-						<li style="font-size: 15px;">{{Users.Username}}</li>
-						<li style="font-size: 15px;">{{Users.Email}}</li>
+						<li style="font-size: 15px;">{{Users.firstname}} {{Users.middlename}} {{Users.lastname}}</li>
+						<li style="font-size: 15px;">{{Users.username}}</li>
+						<li style="font-size: 15px;">{{Users.emailAddress}}</li>
 						{%endfor%}
 					</ul>
 				</div>
@@ -613,43 +613,39 @@
 			<div style="position: absolute; top:0px; height: 10%;width: 100%; background:#216f73;color: #ebebeb; text-align: center;"><h2 style="margin-top: 5px;">MANAGE ACCOUNT</h2></div>
 			<form>
 	{% for Users in userinfo %}
-				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; border-top: 4px solid #216f73; position: absolute; top: 11%;">
-					<div style="position: absolute; top: 20%; left: 10%;"><h5>ID</h5></div>
-					<input type="text" name="userid" placeholder="" required="True" value ="{{Users.id}}" style=" position: absolute; right: 20%; top: 10%;" >
-				</div>
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 19%;">
 					<div style="position: absolute; top: 1%; left: 10%;"><h5>USERNAME</h5></div>
-					<input type="text" name="username" placeholder="" required="True" value ="{{Users.Username}}" style=" position: absolute; right: 20%; top: 1%;" >
+					<input type="text" name="username" placeholder="" required="True" value ="{{Users.username}}" style=" position: absolute; right: 20%; top: 1%;" >
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 27%;">
 					<div style="position: absolute; top: 1%; left: 10%;"><h5>NAME</h5></div>
-					<input type="text" name="first_name" placeholder="" required="True" value ="{{Users.Firstname}}" style="position: absolute; top: 1%; left: 35%; width: 18%;" >
-					<input type="text" name="middle_name" placeholder="" required="True" value ="{{Users.Middlename}}" style="position: absolute; top: 1%; left: 55%; width: 18%;" >
-					<input type="text" name="last_name" placeholder="" required="True" value ="{{Users.Lastname}}" style="position: absolute; top: 1%; left: 75%; width: 18%;" >
+					<input type="text" name="first_name" placeholder="" required="True" value ="{{Users.firstname}}" style="position: absolute; top: 1%; left: 35%; width: 18%;" >
+					<input type="text" name="middle_name" placeholder="" required="True" value ="{{Users.middlename}}" style="position: absolute; top: 1%; left: 55%; width: 18%;" >
+					<input type="text" name="last_name" placeholder="" required="True" value ="{{Users.lastname}}" style="position: absolute; top: 1%; left: 75%; width: 18%;" >
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 35%;" >
 					<div style="position: absolute; top: 1%; left: 10%;"><h5>EMAIL</h5></div>
-					<input type="text" name="email" placeholder="" required="True" value ="{{Users.Email}}" style="position: absolute; top: 1%; right: 20%;" >
+					<input type="text" name="email" placeholder="" required="True" value ="{{Users.emailAddress}}" style="position: absolute; top: 1%; right: 20%;" >
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 43%;" >
 					<div style="position: absolute; top: 1%; left: 10%;"><h5>GENDER</h5></div>
-					<input type="radio" name="gender"  required value ="{{Users.Gender}}" style="position: absolute; top: 1%; left: 45%; width: 20px; height: 20px;" >
+					<input type="radio" name="gender"  required value ="{{Users.gender}}" style="position: absolute; top: 1%; left: 45%; width: 20px; height: 20px;" >
 					<label style="position: absolute; top: 1%; left: 35%;">MALE</label>
-					<input type="radio" name="gender"  required value ="{{Users.Gender}}" style="position: absolute; top: 1%; left: 80%; width: 20px; height: 20px;" >
+					<input type="radio" name="gender"  required value ="{{Users.gender}}" style="position: absolute; top: 1%; left: 80%; width: 20px; height: 20px;" >
 					<label style="position: absolute; top: 1%; left: 65%;">FEMALE</label>
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 51%;" >
 					<div style="position: absolute; top: 1%; left: 10%;"><h5>BIRTHDATE</h5></div>
-					<input type="date" name="bday" required="True" value ="{{Users.Birthdate  |  date:"Y-m-d" }}" style="position: absolute; top: 1%; right: 20%; width: 33%;" >
+					<input type="date" name="bday" required="True" value ="{{Users.birthdate  |  date:"Y-m-d" }}" style="position: absolute; top: 1%; right: 20%; width: 33%;" >
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 58%;">
 					<div style="position: absolute; top: 10%; left: 10%;"><h6>OLD PASSWORD</h6></div>
-					<input type="password" name="password" placeholder=" " required="True" value ="{{Users.Password}}" style=" position: absolute; right: 15%; top: 10%;" >
+					<input type="password" name="password" placeholder=" " required="True" value ="{{Users.password}}" style=" position: absolute; right: 15%; top: 10%;" >
 				</div>
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 66%;">
 					<div style="position: absolute; top: 10%; left: 10%;"><h6>NEW PASSWORD</h6></div>

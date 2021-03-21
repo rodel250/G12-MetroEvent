@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class User(models.Model):
@@ -9,6 +10,6 @@ class User(models.Model):
     password = models.CharField(max_length = 50, null=True, blank=True)
     emailAddress = models.CharField(max_length = 50, null=True, blank=True)
     gender = models.CharField(max_length = 50, null=True, blank=True)
-    birthdate = models.DateField()
+    birthdate = models.DateField(default = datetime.now(), null=True, blank=True)
     class Meta:
         db_table = "User"
