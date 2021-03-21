@@ -1,0 +1,614 @@
+{% load static %}
+
+{% block headerinclude %}
+
+	<title>CUFA Home Page</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+		}
+		div.outer {
+			position: fixed;
+			margin: 0;
+			width: 100%;
+			height: 100vh;
+		}
+/*LEFT */
+		div.left{
+			width: 50%;
+			height: 100%;
+			background: #ebebeb; /*grey color*/
+			position: relative;
+			left: 0px;
+			text-align: center;
+			
+		}
+		.logo{
+			width: 80%;
+			margin-top: 10%;
+		}
+		.left h1{
+			margin-top: 0;
+			font-weight: bolder;
+			color: #216f73;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			text-align: center; 
+		}
+		.copyright{
+			width: 100%;
+			font-size: 15px;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			color: #073644;
+			position: absolute;
+			bottom: 5px;
+		}
+/*RIGHT*/
+		div.right{
+			position: absolute;
+			right: 0px;
+			top: 0px;
+			width: 50%;
+			height: 100%;
+			background: #17555d; /*maroon color*/
+		}
+		div.topbar{
+			width: 100%;
+			height: 50px;
+			border-bottom: 1px solid white;
+			text-align: center;
+		}
+		.topbar button{
+			margin: 10px;
+			height: 30px;
+			color: white;
+			font-size: 20px;
+			font-weight: bolder;
+			background: inherit;
+			border: none;
+			cursor: pointer;
+		}
+		.topbar button:hover{
+			color: #781b1b;
+			background: #ebebeb;
+			border-radius: 5px; 
+		}
+		.feature{
+			position: absolute;
+			width: 90%;
+			height: 85%;
+			left: 5%;
+			top: 10%;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			color: white;
+			
+		}
+/*ABOUS US MODAL*/
+		div.contentAbt{
+			z-index:2;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			color: #216f73;
+			position: absolute;
+			top: 18%;
+			left: 10%;
+			background-color: #ebebeb;
+			border-radius: 5px;
+			width: 80%;
+			height: 60%;
+			transform:translate(0%,-40%) scale(0);
+			
+		}
+		.popupAbt .overlayAbt {
+			  position:fixed;
+			  top:0px;
+			  left:0px;
+			  width:100vw;
+			  height:100vh;
+			  background:rgba(148, 239, 255,0.3);
+			  z-index:1;
+			  display:none;
+			}
+		.popupAbt.active .overlayAbt {
+			  display:block;
+			}
+		.popupAbt .closeAbt{
+			  cursor:pointer;
+			  position:absolute;
+			  right:20px;
+			  top:20px;
+			  width:30px;
+			  height:30px;
+			  background: #216f73;
+			  color: #ebebeb;
+			  font-size:25px;
+			  font-weight:600;
+			  line-height:30px;
+			  text-align:center;
+			  border-radius:50%;
+		}
+		.popupAbt.active .contentAbt {
+			  transition:all 300ms ease-in-out;
+			  transform:translate(0%,0%) scale(1);
+		}
+/*CONTACT US MODAL*/
+		div.contentCnt{
+			z-index:2;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			color: #216f73;
+			position: absolute;
+			top: 18%;
+			left: 10%;
+			background-color: #ebebeb;
+			border-radius: 5px;
+			width: 80%;
+			height: 60%;
+			transform:translate(0%,-40%) scale(0);
+			
+		}
+		.popupCnt .overlayCnt {
+			  position:fixed;
+			  top:0px;
+			  left:0px;
+			  width:100vw;
+			  height:100vh;
+			  background:rgba(148, 239, 255,0.3);
+			  z-index:1;
+			  display:none;
+			}
+		.popupCnt.active .overlayCnt {
+			  display:block;
+			}
+		.popupCnt .closeCnt{
+			  cursor:pointer;
+			  position:absolute;
+			  right:20px;
+			  top:20px;
+			  width:30px;
+			  height:30px;
+			  background: #216f73;
+			  color: #ebebeb;
+			  font-size:25px;
+			  font-weight:600;
+			  line-height:30px;
+			  text-align:center;
+			  border-radius:50%;
+		}
+		.popupCnt.active .contentCnt {
+			  transition:all 300ms ease-in-out;
+			  transform:translate(0%,0%) scale(1);
+		}
+		.contactus input{
+			border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+			 width: 45%;
+			 height: 25px;
+		}
+		.contactus textarea{
+			border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+		}
+
+/*SING UP MODAL*/
+		div.contentSign{
+			z-index:2;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			color: #216f73;
+			position: absolute;
+			top: 18%;
+			left: 20%;
+			background-color: #ebebeb;
+			border-radius: 5px;
+			width: 60%;
+			height: 60%;
+			text-align: center;
+			transform:translate(0%,-40%) scale(0);
+			
+		}
+		.popupSign .overlaySign {
+			  position:fixed;
+			  top:0px;
+			  left:0px;
+			  width:100vw;
+			  height:100vh;
+			  background:rgba(148, 239, 255,0.3);
+			  z-index:1;
+			  display:none;
+			}
+		.popupSign.active .overlaySign {
+			  display:block;
+			}
+		.popupSign .closeSign{
+			  cursor:pointer;
+			  position:absolute;
+			  right:20px;
+			  top:20px;
+			  width:30px;
+			  height:30px;
+			  background: #216f73;
+			  color: #ebebeb;
+			  font-size:25px;
+			  font-weight:600;
+			  line-height:30px;
+			  text-align:center;
+			  border-radius:50%;
+		}
+		.popupSign.active .contentSign{
+			  transition:all 300ms ease-in-out;
+			  transform:translate(0%,0%) scale(1);
+		}
+		div.login{
+			padding-left: auto;
+		}
+		.login input{
+			width: 68%;
+			margin-bottom: 10px;
+		}
+		.login input[type="text"], input[type="password"]{
+			border: none;
+			border-bottom: 1px solid #9e1e1e;
+			background: transparent;
+			outline: none;
+			height: 40px;
+			color: #9e1e1e;
+			font-size: 16px;	
+		}
+		.login input[type="submit"]:hover{
+			cursor: pointer;
+			background: #ebebeb; /*maroon color*/
+			color: #216f73;
+			border: 1px solid #216f73;
+		}
+		.login input[type="submit"]{
+			margin-top: 20px;
+			border: none;
+			outline: none;
+			height: 40px;
+			background: #216f73; /*maroon color*/
+			color: white;
+			font-size: 18px;
+			border-radius: 10px;
+		}
+		.login  button{		
+			margin-left: 5px;
+			background: #781b1b; /*maroon color*/
+			color: #ebebeb; /*grey*/
+			font-size: 10px;
+			border-radius: 5px;			
+			width: 130px;	
+			height: 25px;		
+		}
+		.login  button:hover{
+			cursor: pointer;
+			background: #781b1b;
+			color: #ffcc00;
+		}
+/*REGISTER MODAL*/
+		div.contentReg{
+			z-index:2;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			color: #216f73;
+			position: absolute;
+			top: 18%;
+			left: 10%;
+			background-color: #ebebeb;
+			border-radius: 5px;
+			width: 80%;
+			height: 65%;
+			transform:translate(0%,-40%) scale(0);
+			
+		}
+		.popupReg .overlayReg {
+			  position:fixed;
+			  top:0px;
+			  left:0px;
+			  width:100vw;
+			  height:100vh;
+			  background:rgba(148, 239, 255,0.3);
+			  z-index:1;
+			  display:none;
+			}
+		.popupReg.active .overlayReg {
+			  display:block;
+			}
+		.popupReg .closeReg{
+			  cursor:pointer;
+			  position:absolute;
+			  right:20px;
+			  top:20px;
+			  width:30px;
+			  height:30px;
+			  background: #216f73;
+			  color: #ebebeb;
+			  font-size:25px;
+			  font-weight:600;
+			  line-height:30px;
+			  text-align:center;
+			  border-radius:50%;
+		}
+		.popupReg.active .contentReg {
+			  transition:all 300ms ease-in-out;
+			  transform:translate(0%,0%) scale(1);
+		}
+		.contentReg p{
+			font-size: 10px;
+		}
+		.username input{
+			 border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+			 width: 45%;
+			 height: 20px;
+		}
+		.name input{
+			 border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+			 width: 20%;
+			 height: 20px;
+		}
+		.email input{
+			border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+			 width: 45%;
+			 height: 20px;
+		}
+		.bday input{
+			 border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+			 width: 45%;
+			 height: 30px;
+		}
+		.password input, .confirmpassword input{
+			 border: none;
+			 border-radius: 3px; 
+			 border-bottom: 1px solid black;
+			 outline: none;
+			 background: white;
+			 width: 45%;
+			 height: 20px;
+		}
+		.regbtn button:hover{
+			cursor: pointer;
+			background: #ebebeb; /*maroon color*/
+			color: #216f73;
+			border: 1px solid #216f73;
+		}
+		.regbtn button{
+			border: none;
+			outline: none;
+			height: 30px;
+			background: #216f73; /*maroon color*/
+			color: white;
+			font-size: 15px;
+			border-radius: 10px;
+			margin-top: 3%;
+			width: 50%;
+		}
+	</style>
+{% endblock headerinclude %}
+
+{% block footerinclude %}
+<script type="text/javascript">
+	function togglePopupAbt(){
+	 	 document.getElementById("popup-Abt").classList.toggle("active");
+	}
+	function togglePopupCnt(){
+	 	 document.getElementById("popup-Cnt").classList.toggle("active");
+	}
+	function togglePopupSign(){
+	 	 document.getElementById("popup-Sign").classList.toggle("active");
+	}
+	function togglePopupReg(){
+	 	 document.getElementById("popup-Reg").classList.toggle("active");
+	}
+</script>
+{% endblock footerinclude %}
+
+{% block content %}
+
+	<div class="outer">
+		<div class="left">
+			<img  src="{% static 'icons/me.png' %}" class="logo">
+
+			<h1>Events Gets You Goin'.</h1>
+			<div class="copyright">
+				Copyright &#169; Metro Events. All rights reserved.
+			</div>
+		</div>
+		<div class="right">
+			<div class="topbar">
+				<button onclick="togglePopupAbt()">ABOUT US</button>
+				<button onclick="togglePopupCnt()">CONTACT US</button>
+				<button onclick="togglePopupSign()">SIGN IN</button>
+				<button onclick="togglePopupReg()">REGISTER</button>
+			</div>
+			<div class="feature">
+				<h1 style="text-align: center;">METRO EVENT</h1>
+				<div style="position: absolute; left: 10%; top: 13%; width: 55%; ">
+					<p style="text-align: left; font-size: 20px; font-weight: bold; line-height: 30px;">
+						Easily find and participate in an event!
+					</p>
+				</div>
+						
+				<div style="position: absolute; right: 0%;">
+					<img  src="{% static 'icons/feature1.png' %}" style="width: 70%;">
+				</div>
+				<div style="position: absolute; left: 10%; top:40%; ">
+					<img  src="{% static 'icons/feature2.png' %}" style="width: 70%;">
+				</div>
+						
+				<div style="position: absolute; right: 10%; top:45%; width: 55%;">
+					<p style="text-align: right; font-size: 20px; font-weight: bold; line-height: 30px;">Be an Event Organizer or a Participant!</p>	
+				</div>
+				<div style="position: absolute; left: 10%; top: 73%; width: 55%; ">
+					<p style="text-align: center; font-size: 20px; font-weight: bold; line-height: 30px;">Events and participants are safe and well-managed.</p>
+				</div>
+						
+				<div style="position: absolute; right: 0%; top: 70%;">
+					<img  src="{% static 'icons/powerbi.png' %}" style="width: 75%;">
+				</div>
+
+			</div>
+
+			<div class="popupAbt" id="popup-Abt">
+					<div class="overlayAbt"></div>
+					<div class="contentAbt">
+						<div class="textabt" style=" margin: 15px 15px 15px 15px;">
+							<div class="closeAbt" onclick="togglePopupAbt()">&times;</div>
+							<h1>ABOUT US</h1> 
+							<p style=" font-weight: bold; text-align: justify; font-size: 13px;">
+								
+
+							</p>
+						</div>
+						<div style="margin-top: 1%;">
+								<p style="font-size: 20px; font-weight: bold; text-align:  center;">DEVELOPERS</p>
+								<div style="line-height: 10px; text-align: center; font-size: 15px; font-weight: bold; letter-spacing: 1px;">
+									<p>Niel Fred Tabar</p>
+									<p>Ryan Musa</p>
+									<p>Rodel Perez</p>
+									<p>Bob Rosales</p>
+								</div>
+								
+							</ul>
+						</div>
+					</div>	
+			</div>
+			<div class="popupCnt" id="popup-Cnt">
+					<div class="overlayCnt"></div>
+					<div class="contentCnt">
+						<div class="textcnt" style=" margin: 15px 15px 15px 15px;">
+							<div class="closeCnt" onclick="togglePopupCnt()">&times;</div>
+							<h1>CONTACT US</h1> 
+							<div class="contactus" style="font-size: 15px; border: 2px solid white; border-radius: 10px; height: 50%; width: 90%; position: relative; left: 5%; top: 1%;">
+									<label style="position: absolute; top: 5%; left: 5%;;">FULL NAME:</label>
+									<input type="text" style="position: absolute; top: 5%; left: 30%; width: 60%;">
+									<label style="position: absolute; top: 20%; left: 5%;;">EMAIL:</label>
+									<input type="text" style="position: absolute; top: 20%; left: 30%; width: 60%; ">
+									<label style="position: absolute; top: 35%; left: 5%;;">MESSAGE:</label>
+									<textarea cols="10" rows="5" style="position: absolute; top: 35%; left: 30%; width: 60%; height: 30%;"></textarea>
+									<div class="regbtn" style="position: absolute; bottom: 5%; left: 20%; width: 40%; text-align: center;">
+										<button type="submit" style="background-color: #216f73">SEND</button>
+									</div>
+							</div> 
+							<div style="font-size: 15px; border: 2px solid white; border-radius: 10px; height: 20%; width: 90%; position: relative; left: 5%; margin-top: 4px; font-size: 12px;">
+								<div style="margin-top: 5px; margin-left: 5px; font-weight: bold;">
+									<label>Visit us here on Facebook: </label><a href=""></a>
+								</div>
+								<div style="margin-top: 5px; margin-left: 5px; font-weight: bold;">
+									<label></label><a href=""></a>
+								</div>
+								<div style="margin-top: 5px; margin-left: 5px; font-weight: bold;">
+									<label>CIT-U: </label><a href=""></a>
+								</div>
+								
+							</div>
+							
+						
+
+							
+						</div>
+					</div>	
+			</div>
+			<div class="popupSign" id="popup-Sign">
+					<div class="overlaySign"></div>
+					<div class="contentSign">
+						<div class="textcnt" style=" margin: 15px 15px 15px 15px;">
+							<div class="closeSign" onclick="togglePopupSign()">&times;</div>
+							<h1>SIGN IN</h1> 
+							<form method="POST">
+								{% csrf_token %}
+							<div class="login">
+								<p style=" font-weight: bold; text-align: center;">USERNAME</p>
+								<input type="text" name="usern" placeholder="Enter Username" required>
+								<p style=" font-weight: bold; text-align: center;">PASSWORD</p>
+								<input type="password" name="passw" placeholder="Enter Password" required>
+								<input type="submit" name="Loginclick" value="Login"><br>
+								</form>
+							</div>
+						</div>
+					</div>	
+			</div>
+			<div class="popupReg" id="popup-Reg">
+					<div class="overlayReg"></div>
+					<div class="contentReg">
+						<div class="textReg" style=" margin: 15px 15px 15px 15px;">
+							<div class="closeReg" onclick="togglePopupReg()">&times;</div>
+							<h1>REGISTER</h1> 
+							<div class="register">
+							<form class="form" method="POST">
+								{% csrf_token %}
+								<div class="username" style="font-size: 10px; border: 0.5px solid white; position: relative; background: #d1d1d1; border-top-right-radius: 5px; border-top-left-radius: 5px;">
+									<div style="margin-left: 5%; "><h3>USERNAME:</h3></div>
+									<input type="text" name="UserName" style="position: absolute; top: 15%; left: 35%; height: 20px;" required>
+								</div>
+								<div class="name" style="font-size: 10px; border: 0.5px solid white; position: relative;">
+									<div style="margin-left: 5%; "><h3>NAME</h3></div>
+									<input type="text" name="FirstName" style="position: absolute; top: 13%; left: 20%;" required>
+									<label style="position: absolute; top: 70%; left: 25%;">First Name</label>
+									<input type="text" name="MiddleName" style="position: absolute; top: 13%; left: 45%;" required>
+									<label style="position: absolute; top: 70%; left: 50%;">Middle Name</label>
+									<input type="text" name="LastName" style="position: absolute; top: 13%; right: 10%;" required>
+									<label style="position: absolute; top: 70%; right: 15%;">Last Name</label>
+								</div> 
+								<div class="email" style="font-size: 10px; border: 0.5px solid white; position: relative; background: #d1d1d1;">
+									<div style="margin-left: 5%;"><h3>EMAIL</h3></div>
+									<input type="text" name="Email" style="position: absolute; top: 20%; left: 35%" required>
+								</div>
+								<div class="gender" style="font-size: 10px; border: 0.5px solid white; position: relative;">
+									<div style="margin-left: 5%;"><h3>GENDER</h3></div>
+									<label style="position: absolute; top: 35%; left: 35%;">MALE</label>
+									<input type="radio" name="Gender" value="Male" style="position: absolute; top: 20%; left: 40%; height:20px; width: 20px;" >
+									<label style="position: absolute; top: 35%; right: 35%;">FEMALE</label>
+									<input type="radio" name="Gender" value="Female" style="position: absolute; top: 20%; right: 30%; height:20px; width: 20px" >
+								</div>
+								<div class="bday" style="font-size: 10px; border: 0.5px solid white; position: relative; background: #d1d1d1;">
+									<div style="margin-left: 5%;"><h3>BIRTHDATE</h3></div>
+									<input type="date" name="Birthdate" style="position: absolute; top: 10%; left: 35%;" required>
+								</div>
+								<div class="password" style="font-size: 10px; border: 0.5px solid white; position: relative;">
+									<div style="margin-left: 5%;"><h3>PASSWORD</h3></div>
+									<input type="password" name="Password" style="position: absolute; top: 20%; left: 35%;" required onchange="form.confirmpassword.pattern=this.value">
+								</div>
+								<div class="confirmpassword" style="font-size: 10px;border: 0.5px solid white; position: relative; background: #d1d1d1;border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" >
+									<div style="margin-left: 5%;"><h3>CONFIRM PASSWORD</h3></div>
+									<input type="Password" name="confirmpassword" style="position: absolute; top: 20%; left: 35%;" required>
+								</div>
+							
+								<div class="regbtn" style="text-align: center;">
+									<button type="submit" name="Registerclick">REGISTER</button>
+								</div>
+								
+							</form>
+							</div>
+						</div>
+					</div>	
+			</div>
+			
+			{% if messages %}
+
+			{% for message in messages %}
+			{% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+			{% endfor %}
+
+			{% endif %}						
+		</div>
+
+{% endblock content %}
+
