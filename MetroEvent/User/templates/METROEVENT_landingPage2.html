@@ -555,20 +555,20 @@
 								{% csrf_token %}
 								<div class="username" style="font-size: 10px; border: 0.5px solid white; position: relative; background: #d1d1d1; border-top-right-radius: 5px; border-top-left-radius: 5px;">
 									<div style="margin-left: 5%; "><h3>USERNAME:</h3></div>
-									<input type="text" name="UserName" style="position: absolute; top: 15%; left: 35%; height: 20px;" required>
+									<input type="text" name="UserName" id="UserName" style="position: absolute; top: 15%; left: 35%; height: 20px;" required>
 								</div>
 								<div class="name" style="font-size: 10px; border: 0.5px solid white; position: relative;">
 									<div style="margin-left: 5%; "><h3>NAME</h3></div>
-									<input type="text" name="FirstName" style="position: absolute; top: 13%; left: 20%;" required>
+									<input type="text" name="FirstName" id="FirstName" style="position: absolute; top: 13%; left: 20%;" required>
 									<label style="position: absolute; top: 70%; left: 25%;">First Name</label>
-									<input type="text" name="MiddleName" style="position: absolute; top: 13%; left: 45%;" required>
+									<input type="text" name="MiddleName" id="MiddleName" style="position: absolute; top: 13%; left: 45%;" required>
 									<label style="position: absolute; top: 70%; left: 50%;">Middle Name</label>
-									<input type="text" name="LastName" style="position: absolute; top: 13%; right: 10%;" required>
+									<input type="text" name="LastName" id="LastName" style="position: absolute; top: 13%; right: 10%;" required>
 									<label style="position: absolute; top: 70%; right: 15%;">Last Name</label>
 								</div> 
 								<div class="email" style="font-size: 10px; border: 0.5px solid white; position: relative; background: #d1d1d1;">
 									<div style="margin-left: 5%;"><h3>EMAIL</h3></div>
-									<input type="text" name="Email" style="position: absolute; top: 20%; left: 35%" required>
+									<input type="text" name="Email" id="Email" style="position: absolute; top: 20%; left: 35%" required>
 								</div>
 								<div class="gender" style="font-size: 10px; border: 0.5px solid white; position: relative;">
 									<div style="margin-left: 5%;"><h3>GENDER</h3></div>
@@ -579,11 +579,11 @@
 								</div>
 								<div class="bday" style="font-size: 10px; border: 0.5px solid white; position: relative; background: #d1d1d1;">
 									<div style="margin-left: 5%;"><h3>BIRTHDATE</h3></div>
-									<input type="date" name="Birthdate" style="position: absolute; top: 10%; left: 35%;" required>
+									<input type="date" name="Birthdate" id="Birthdate" style="position: absolute; top: 10%; left: 35%;" required>
 								</div>
 								<div class="password" style="font-size: 10px; border: 0.5px solid white; position: relative;">
 									<div style="margin-left: 5%;"><h3>PASSWORD</h3></div>
-									<input type="password" name="Password" style="position: absolute; top: 20%; left: 35%;" required onchange="form.confirmpassword.pattern=this.value">
+									<input type="password" name="Password" id="Password" style="position: absolute; top: 20%; left: 35%;" required onchange="form.confirmpassword.pattern=this.value">
 								</div>
 								<div class="confirmpassword" style="font-size: 10px;border: 0.5px solid white; position: relative; background: #d1d1d1;border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" >
 									<div style="margin-left: 5%;"><h3>CONFIRM PASSWORD</h3></div>
@@ -591,7 +591,7 @@
 								</div>
 							
 								<div class="regbtn" style="text-align: center;">
-									<button type="submit" name="Registerclick">REGISTER</button>
+									<button type="submit" name="btnRegister" id="btnRegister">REGISTER</button>
 								</div>
 								
 							</form>
