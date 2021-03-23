@@ -22,7 +22,6 @@ class DashboardView(View):
 		return render(request,'METROEVENT_dashboard2.html',context)
 
 	def post(self, request):
-		
 		if request.method == 'POST':
 			if 'btnUpdate' in request.POST:
 				print('update profile button clicked')
@@ -49,15 +48,23 @@ class DashboardView(View):
 				users = User.objects.filter(username=uname).delete()
 				messages.success(request, 'Account has been Deleted')
 				return redirect('User:landing_view')
+			
+			elif 'btnOrganizer' in request.POST:
+				try:
+					Userdetails = UserRequest.objects.get(user_id=uniuser())
+					messages.success(request, 'You already sent a request!')
+					return redirect('User:dashboard_view')
+				
+				except UserRequest.DoesNotExist:
+					requestInstance = UserRequest.objects.create(user_id = uniuser(), isApprove = 0)
+					messages.success(request, 'Succesfully Requested')
+					return redirect('User:dashboard_view')
+					
 
 				
-			'''elif 'btnDeactivate' in request.POST:
-				uid = request.POST.get("userid")
-				users = User.objects.filter(id=uid).update(Status = "Deactivated")
-				messages.success(request, 'User has been deactivated')
-				return redirect('UI:dashboard_view')
+		
 
-			elif 'btnActivate' in request.POST:
+			'''elif 'btnActivate' in request.POST:
 				uid = request.POST.get("userid")
 				users = User.objects.filter(id=uid).update(Status = "Active")
 				messages.success(request, 'User has been Active')
@@ -95,21 +102,24 @@ class LandingPageView(View):
 					return redirect('User:landing_view')
 
 			elif 'Loginclick' in request.POST:
-				try:
-					Userdetails = User.objects.get(username=request.POST['usern'],password=request.POST['passw'])
-					request.session['usern']=Userdetails.username
-					request.session['passw']=Userdetails.password
+				if request.POST['usern'] == "Admin" and request.POST['passw'] == "Admin":
+						return redirect('Admin:dashboard_view')
+				else:		
+					try:				
+						
+						Userdetails = User.objects.get(username=request.POST['usern'],password=request.POST['passw'])
+						request.session['usern']=Userdetails.username
+						request.session['passw']=Userdetails.password
+						user = Userdetails.username
+						global uniuser
+						def uniuser():
+							return user
 
-					user = Userdetails.username
-					global uniuser
-					def uniuser():
-						return user
-
-					return redirect('User:dashboard_view')
-					
-				except User.DoesNotExist:
-					messages.success(request, 'Invalid Account, Please Enter a Valid account')
-					return redirect('User:landing_view')
+						return redirect('User:dashboard_view')
+						
+					except User.DoesNotExist:
+						messages.success(request, 'Invalid Account, Please Enter a Valid account')
+						return redirect('User:landing_view')
 		
 		else:
 			return HttpResponse('not valid')

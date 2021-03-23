@@ -10,7 +10,7 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-	<title>CUFA Dashboard</title>
+	<title>USER Dashboard</title>
 	<style type="text/css">
 		*{
 			padding: 0;
@@ -631,11 +631,7 @@
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 43%;" >
-					<div style="position: absolute; top: 1%; left: 10%;"><h5>GENDER</h5></div>
-					<input type="radio" name="gender"  required value ="{{Users.gender}}" style="position: absolute; top: 1%; left: 45%; width: 20px; height: 20px;" >
-					<label style="position: absolute; top: 1%; left: 35%;">MALE</label>
-					<input type="radio" name="gender"  required value ="{{Users.gender}}" style="position: absolute; top: 1%; left: 80%; width: 20px; height: 20px;" >
-					<label style="position: absolute; top: 1%; left: 65%;">FEMALE</label>
+					<div style="position: absolute; top: 1%; left: 10%;"><h5>GENDER: {{Users.gender}}</h5></div>
 				</div>
 
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 51%;" >
@@ -649,7 +645,7 @@
 				</div>
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 66%;">
 					<div style="position: absolute; top: 10%; left: 10%;"><h6>NEW PASSWORD</h6></div>
-					<input type="password" name="password" placeholder=" "  value ="" style=" position: absolute; right: 15%; top: 10%;" required onchange="form.confirmpassword.pattern=this.value" >
+					<input type="password" name="password" placeholder=" "  value ="" style=" position: absolute; right: 15%; top: 10%;"  onchange="form.confirmpassword.pattern=this.value" >
 				</div>
 				<div style="height: 6%; width: 100%; border-bottom: 1px solid #216f73; position: absolute; top: 73%;">
 					<div style="position: absolute; top: 10%; left: 10%;"><h6>CONFIRM NEW PASSWORD</h6></div>
@@ -658,18 +654,13 @@
 				<div class="managebtn2" style="width: 100%; text-align: center; position: absolute; top: 81%;">	
 					<div style=" width: 100%; margin: 5px;"><button style=" width: 80%;" type="submit" name="btnUpdate">UPDATE ACCOUNT</button></div>
 				</div>
-				<div class="managebtn2" style="width: 30%; text-align: center; position: absolute; bottom: 3%;  left: 7%;">	
-					<div style=" height: 35px; width: 100%; margin: 5px;"><button style=" width: 80%; font-size: 10px;" name="btnDeactivate">DEACTIVATE ACCOUNT</button>
-					</div>
-				</div>
 				<div class="managebtn2" style="width: 30%; text-align: center; position: absolute; bottom: 3%; left: 35%;">	
-					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnActivate">BECOME AN ORGANIZER</button>
+					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnOrganizer">BECOME AN ORGANIZER</button>
 					</div>
-				</div>
-				<div class="managebtn2" style="width: 30%; text-align: center; position: absolute; bottom: 3%; right: 7%;">	
 					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnDelete">DELETE ACCOUNT</button>
 					</div>
 				</div>
+
 
 			</form>
 			<div class="closeManage" onclick="togglePopupManage()">BACK</div>

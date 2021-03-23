@@ -13,3 +13,10 @@ class User(models.Model):
     birthdate = models.DateField(default = datetime.now(), null=True, blank=True)
     class Meta:
         db_table = "User"
+    
+class UserRequest(models.Model):
+    requestID = models.AutoField(primary_key = True)
+    user = models.ForeignKey(User,max_length = 50, null = False, blank = False, on_delete = models.CASCADE, related_name = "userID")
+    isApprove = models.IntegerField()
+    class Meta:
+        db_table = "UserRequest"

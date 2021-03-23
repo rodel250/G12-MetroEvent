@@ -3,6 +3,7 @@ from User.models import User
 
 # Create your models here.
 class Admin(models.Model):
-    uesrID = models.ForeignKey(User, null = False, blank = False, on_delete = models.CASCADE, related_name = "User")
+    admin = models.IntegerField(null=False, blank=False,primary_key = True,default = 'default')
+    user = models.ForeignKey(User,max_length = 50, null = False, blank = False, on_delete = models.CASCADE, related_name = "User")
     class Meta:
         db_table = "Admin"
