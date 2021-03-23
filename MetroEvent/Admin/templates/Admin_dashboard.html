@@ -1,14 +1,12 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-<!--TABLE-->
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+{% block headerinclude %}
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	
 	<title>ADMIN Dashboard</title>
 	<style type="text/css">
 		*{
@@ -141,18 +139,17 @@
 			width: 93%;
 			height: 98vh;
 		}
-
-
-
-
-
 	</style>
-	
-</head>
-<script type="text/javascript">
-	
-</script>
-<body>
+{% endblock headerinclude %}
+
+{% block footerinclude %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock footerinclude %}
+
+{% block content %}
+
 	<div class="icons2">
 		<ul>
 			<li><a href="{% url 'User:landing_view' %}" style="color: inherit;"><button><img src="{% static 'icons/logout.png' %}"></button></a></li>
@@ -169,70 +166,93 @@
 <div class="header1" style="margin-left: 2.9%;margin-bottom: 3%;background-color: #216f73;padding: .89%;color: aliceblue;">
 	<b>Howdy, Admin!</b>
 </div>
-		<CENTER>
-<div class="container">
-	<h1>Organizer Request Dashboard</h1>
-	<br>
-	<form method="post">
-		{% csrf_token %}
-		<div class="row clearfix">
-			<div class="col-md-11 table-responsive"style="margin-left: 5%";>
-				<table class="table table-bordered table-hover" id="tab_logic">
-					<thead>
-						<tr >
-							<th class="text-center">
-								REQUEST ID
-							</th>
-							<th class="text-center">
-								USERNAME
-							</th>
-							<th class="text-center">
-								APPROVE
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for request in requests %}
-						<div>
+<CENTER>
+	<div class="container">
+		<h1>Organizer Request Dashboard</h1>
+		<br>
+		<form method="post">
+			{% csrf_token %}
+			<div class="row clearfix">
+				<div class="col-md-11 table-responsive"style="margin-left: 5%";>
+					<table class="table table-bordered table-hover" id="tab_logic">
+						<thead>
+							<tr >
+								<th class="text-center">
+									REQUEST ID
+								</th>
+								<th class="text-center">
+									USERNAME
+								</th>
+								<th class="text-center">
+									APPROVE / REMOVE
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for request in requests %}
+							<div>
+								
+							</div>
+							<tr id='addr0' data-id="0" class="hidden">
+								<td data-name="requestID" style="width: 15%;">
+									<input type="text" name='requestIDs'  value="{{request.requestID}}" class="form-control" readonly/>
+								</td>
+								<td data-name="username">
+									<input type="text" name='userID' value="{{request.user_id}}" class="form-control" readonly/>
+								</td>
+								<td data-name="approve" class="text-center" style="width: 20%";>
+									<button type="button" name="btnYes" class='btn btn-success ' data-toggle="modal" data-target="#yesModal-{{request.requestID}}"> <span aria-hidden="true"></span>&#10003;</span></button>
+									<button type="button" name="btnNo" class='btn btn-danger' data-toggle="modal" data-target="#noModal-{{request.requestID}}"><span aria-hidden="true">&#10005;</span></button>
+								</td>
+							</tr>
+							<!-- Disapprove Modal -->
+							<div class="modal " id="noModal-{{request.requestID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{request.user_id}}"></div>
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-footer">
+									<button type="submit" id="btnDisapprove" name="btnDisapprove" class="btn btn-success">Yes</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+									</div>
+								</div>
+								</div>
+							</div>
+							<!-- Approve Modal -->
+							<div class="modal " id="yesModal-{{request.requestID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{request.user_id}}"></div>
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-footer">
+									<button type="submit" id="btnApprove" name="btnApprove" class="btn btn-success">Yes</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+									</div>
+								</div>
+								</div>
+							</div>
 							
-						</div>
-						<tr id='addr0' data-id="0" class="hidden">
-							<td data-name="requestID" style="width: 15%;">
-								<input type="text" name='requestIDs'  value="{{request.requestID}}" class="form-control" readonly/>
-							</td>
-							<td data-name="username">
-								<input type="text" name='userID' value="{{request.user_id}}" class="form-control" readonly/>
-							</td>
-							<td data-name="approve" class="text-center" style="width: 12%";>
-									<button name="btnNo" class='btn btn-danger' data-toggle="modal" data-target="#noModal"><span aria-hidden="true">&#10005;</span></button>
-									<button name="btnYes" class='btn btn-success '><span aria-hidden="true"></span>&#10003;</span></button>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-				
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
-	</form>
-</div>
+		</form>
+	</div>
+	  
+	  
+	
 
 </CENTER>
 
-
-
-
-<!--TABLE EVENTS-->
-	{%block content%}
-
-		{% if messages %}
-			{% for message in messages %}
-				{% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
-
-			{% endfor %}
-
-		{% endif %}
-
-{%endblock content%}
-</body>
-</html>
+{% endblock content %}

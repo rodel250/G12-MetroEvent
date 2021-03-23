@@ -355,6 +355,7 @@
 		function togglePopupManage(){
 	 	 document.getElementById("popup-manage").classList.toggle("active");
 		}
+		
 
 
 /**TABLE**/
@@ -655,7 +656,11 @@
 					<div style=" width: 100%; margin: 5px;"><button style=" width: 80%;" type="submit" name="btnUpdate">UPDATE ACCOUNT</button></div>
 				</div>
 				<div class="managebtn2" style="width: 30%; text-align: center; position: absolute; bottom: 3%; left: 35%;">	
+					{% if Users.isApprove == 0 %}
 					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnOrganizer">BECOME AN ORGANIZER</button>
+					{% else %}
+					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnOrganizer" disabled>ALREADY AN ORGANIZER</button>
+					{% endif %}
 					</div>
 					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnDelete">DELETE ACCOUNT</button>
 					</div>

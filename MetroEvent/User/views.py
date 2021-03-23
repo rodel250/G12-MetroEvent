@@ -13,10 +13,11 @@ class DashboardView(View):
 
 	def get(self, request):
 		username = uniuser()
-		userinfo = User.objects.filter(username=username)
+		#userinfo = User.objects.filter(username=username)
+		test = User.objects.raw('SELECT * FROM user,userrequest WHERE user.username = "'+ username +'" and user.username = userrequest.user_id')
 
 		context = {
-				'userinfo' : userinfo
+				'userinfo' : test
 			}
 
 		return render(request,'METROEVENT_dashboard2.html',context)
@@ -45,7 +46,7 @@ class DashboardView(View):
 
 			elif 'btnDelete' in request.POST:
 				uid = request.POST.get("userid")
-				users = User.objects.filter(username=uname).delete()
+				users = User.objects.filter(username=uniuser()).delete()
 				messages.success(request, 'Account has been Deleted')
 				return redirect('User:landing_view')
 			

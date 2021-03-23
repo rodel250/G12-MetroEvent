@@ -20,3 +20,9 @@ class UserRequest(models.Model):
     isApprove = models.IntegerField()
     class Meta:
         db_table = "UserRequest"
+
+class Organizer(models.Model):
+    organizerID = models.AutoField(primary_key = True)
+    user = models.ForeignKey(User,max_length = 50, null = False, blank = False, on_delete = models.CASCADE, related_name = "organizerUser")
+    class Meta:
+        db_table = "Organizer"
