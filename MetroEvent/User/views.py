@@ -15,9 +15,13 @@ class DashboardView(View):
 		username = uniuser()
 		#userinfo = User.objects.filter(username=username)
 		test = User.objects.raw('SELECT * FROM user,userrequest WHERE user.username = "'+ username +'" and user.username = userrequest.user_id')
-
+		test2 = User.objects.raw('SELECT * FROM user,organizer,event,userrequest WHERE user.username = "'+ username +'" and user.username = userrequest.user_id and user.username = organizer.user_id and organizer.organizerID = event.organizer_id')
+		event = Event.objects.raw('SELECT * FROM user,organizer,event,userrequest WHERE user.username != "'+ username +'" and user.username = userrequest.user_id and user.username = organizer.user_id and organizer.organizerID = event.organizer_id')
 		context = {
-				'userinfo' : test
+				'userinfo' : test,
+				'tests': test2,
+				'events': event
+
 			}
 
 		return render(request,'METROEVENT_dashboard2.html',context)
@@ -60,7 +64,30 @@ class DashboardView(View):
 					requestInstance = UserRequest.objects.create(user_id = uniuser(), isApprove = 0)
 					messages.success(request, 'Succesfully Requested')
 					return redirect('User:dashboard_view')
-					
+			elif 'btnCreateEvent'in request.POST:
+				return redirect('User:event_view')
+
+			elif 'btnCancel' in request.POST:
+				hiddenID = request.POST.get("hiddenID")
+				deleteEvent = Event.objects.filter(eventID = hiddenID).delete()
+				return redirect('User:dashboard_view')
+			elif 'btnJoin' in request.POST:
+				hiddenID = request.POST.get("hiddenID1")
+				try:
+					participants = Participants.objects.get(event_id = hiddenID)
+					messages.success(request, 'You already joined this event')
+					return redirect('User:dashboard_view')
+
+				except Participants.DoesNotExist:
+					participateEvent = Participants.objects.create(event_id = hiddenID, user_id = uniuser())
+					countParticipant = Participants.objects.filter(event_id = hiddenID).count()
+					updateParticipants = Event.objects.filter(eventID = hiddenID).update(eventParticipants = countParticipant)
+					messages.success(request, 'Successfully joined')
+					return redirect('User:dashboard_view')	
+			elif 'btnTest'in request.POST:
+				
+				return redirect('User:landing_view')
+				
 
 				
 		
@@ -121,8 +148,24 @@ class LandingPageView(View):
 					except User.DoesNotExist:
 						messages.success(request, 'Invalid Account, Please Enter a Valid account')
 						return redirect('User:landing_view')
-		
 		else:
 			return HttpResponse('not valid')
+
+class EventView(View):
+	def get(self, request):
+		return render(request, 'METROEVENT_event.html')
+
+	def post(self, request):
+		form = EventForm(request.POST)
+		if form.is_valid():
+			if 'btnCreate' in request.POST:
+				eventName1 = request.POST.get("eventname")
+				eventDate1 = request.POST.get("eventdate")
+				organizer = Organizer.objects.get(user_id = uniuser())
+				eventInstance = Event.objects.create(organizer_id = organizer.organizerID, eventName = eventName1, eventDate = eventDate1, eventParticipants = 0)
+				messages.success(request, 'Successfully created an Event')
+				return redirect('User:dashboard_view')
+
+			
 
 

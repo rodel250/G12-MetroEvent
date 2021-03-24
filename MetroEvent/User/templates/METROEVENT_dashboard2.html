@@ -5,8 +5,13 @@
 <head>
 <!--TABLE-->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
@@ -420,7 +425,17 @@
         });
 });
 
+$(document).ready(function() {
+    $('#example1').DataTable( {
+        "pagingType": "full_numbers"
+    } );
+} );
 
+$(document).ready(function() {
+    $('#example2').DataTable( {
+        "pagingType": "full_numbers"
+    } );
+} );
 
 
     // Sortable Code
@@ -491,61 +506,161 @@
 
 <!--TABLE EVENTS-->
 
-
+<br>
 
 		<CENTER>
-<div class="container">
-    <div class="row clearfix">
-    	<div class="col-md-12 table-responsive">
-			<table class="table table-bordered table-hover table-sortable" id="tab_logic">
-				<thead>
-					<tr >
-						<th class="text-center">
-							ID
-						</th>
-						<th class="text-center">
-							EVENTNAME
-						</th>
-						<th class="text-center">
-							EVENTINFO
-						</th>
-    					<th class="text-center">
-							STATUS
-						</th>
-        				<th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-    				<tr id='addr0' data-id="0" class="hidden">
-						<td data-name="ID">
-						    <input type="text" name='name0'  placeholder='EVENT NAME' class="form-control"/>
-						</td>
-						<td data-name="eventname">
-						    <input type="text" name='mail0' placeholder='SCHEDULED DATE' class="form-control"/>
-						</td>
-						<td data-name="eventinfo">
-						    <input type="text" name='mail0' placeholder='INFO' class="form-control"/>
-						</td>
-			
-    					<td data-name="status">
-						    <select name="sel0">
-        				        <option value="">DEFAULT</option>
-    					        <option value="1">ONGOING</option>
-        				        <option value="2">DONE</option>
-						    </select>
-						</td>
-                        <td data-name="del">
-                            <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'><span aria-hidden="true">×</span></button>
-                        </td>
-					</tr>
-				</tbody>
-			</table>
+<form method="POST">
+{% csrf_token %}
+			<h1>Events</h1>
+<div style="border: 1px; border: solid; width: 58%; padding: 10px">
+
+<table id="example1" class="display" style="width:100%">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>EVENT NAME</th>
+			<th>DATE</th>
+			<th>PARTICIPANTS</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>		
+		{% for event in events %}
+			<td>{{event.eventID}}</td>
+			<td>{{event.eventName}}</td>
+			<td>{{event.eventDate}}</td>
+			<td>{{event.eventParticipants}}</td>
+			<td><button type="button" class='btn btn-success' data-toggle="modal" data-target="#modal-{{event.eventID}}"><span aria-hidden="true">JOIN</span></button></td>
+		</tr>
+		<!-- Join Modal -->
+		<div class="modal " id="modal-{{event.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div hidden><input type="text" id="hiddenID1" name="hiddenID1" value="{{event.eventID}}"></div>
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-footer">
+				<button type="submit" id="btnJoin" name="btnJoin" class="btn btn-success">Yes</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+				</div>
+			</div>
+			</div>
 		</div>
-	</div>
-	<a id="add_row" class="btn btn-primary float-right">Add Row</a>
+		{% endfor %}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>EVENT NAME</th>
+			<th>DATE</th>
+			<th>PARTICIPANTS</th>
+			<th></th>
+		</tr>
+	</tfoot>
+</table>
 </div>
+</form>
 </CENTER>
+
+
+<br>
+<br>
+<br>
+
+<CENTER>
+{% for h in userinfo %}
+{% if h.isApprove == 0 %}
+<div hidden>
+{% else %}	
+<div>
+{% endif %}
+{% endfor %}	
+<form method="POST">
+	{% csrf_token %}
+	<h1>Events Created</h1>
+	<div style="border: 1px; border: solid; width: 58%; padding: 10px;">
+		<table id="example2" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>EVENT NAME</th>
+					<th>DATE</th>
+					<th>PARTICIPANTS</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for test in tests %}
+				<tr>
+					<td>{{test.eventID}}</td>
+					<td>{{test.eventName}}</td>
+					<td>{{test.eventDate}}</td>
+					<td>{{test.eventParticipants}}<button type="button" style="margin-left: 5px;" data-toggle="modal" data-target="#viewModal-{{test.eventID}}">View</button></td>
+					<td><button type="button" name="btnNo" class='btn btn-danger' data-toggle="modal" data-target="#noModal-{{test.eventID}}"><span aria-hidden="true">&#10005;</span></button></td>
+				</tr>
+				<!-- View Modal -->
+				<div class="modal " id="viewModal-{{test.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div><input type="text" id="hiddenID" name="hiddenID" value="{{test.eventID}}"></div>
+						<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<body>
+							wa pa nahuman
+						</body>
+						<div class="modal-footer">
+						<button type="submit" id="btnCancel" name="btnCancel" class="btn btn-success">Yes</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				<!-- Cancel Modal -->
+				<div class="modal " id="noModal-{{test.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{test.eventID}}"></div>
+						<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<div class="modal-footer">
+						<button type="submit" id="btnCancel" name="btnCancel" class="btn btn-success">Yes</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>ID</th>
+					<th>EVENT NAME</th>
+					<th>DATE</th>
+					<th>PARTICIPANTS</th>
+					<th></th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<br>
+	<button name="btnCreateEvent" class="btn btn-info">Create event</button>
+</form>
+</div>
+
+	</CENTER>
 
 
 

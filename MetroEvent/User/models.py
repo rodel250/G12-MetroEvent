@@ -26,3 +26,19 @@ class Organizer(models.Model):
     user = models.ForeignKey(User,max_length = 50, null = False, blank = False, on_delete = models.CASCADE, related_name = "organizerUser")
     class Meta:
         db_table = "Organizer"
+
+class Event(models.Model):
+    organizer = models.ForeignKey(Organizer, null = False, blank = False, on_delete = models.CASCADE, related_name = "orgID")
+    eventID = models.AutoField(primary_key = True)
+    eventName = models.CharField(max_length = 50, null=True, blank=True)
+    eventDate = models.CharField(max_length = 50, null=True, blank=True)
+    eventParticipants = models.IntegerField()
+    class Meta:
+        db_table = "Event"
+
+class Participants(models.Model):
+    participantsID = models.AutoField(primary_key = True)
+    user = models.ForeignKey(User,max_length = 50, null = False, blank = False, on_delete = models.CASCADE, related_name = "participantUser")
+    event = models.ForeignKey(Event, null = False, blank = False, on_delete = models.CASCADE, related_name = "eventIDs")
+    class Meta:
+        db_table = "Participants"
