@@ -11,7 +11,7 @@ from django.contrib import messages
 
 class DashboardView(View):
     def get(self, request):
-        userRequest = UserRequest.objects.filter(isApprove = 0)
+        userRequest = UserRequest.objects.filter(isApprove = 2)
         
         context = {
             'requests' : userRequest    

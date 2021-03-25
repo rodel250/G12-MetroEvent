@@ -305,7 +305,7 @@
 			left:0px;
 			background-color: #ebebeb;
 			width: 255px;
-			height: 50%;
+			height: 20%;
 			transform:translate(0%,-40%) scale(0);
 		}
 		.popupContact .closeContact{
@@ -506,11 +506,7 @@ $(document).ready(function() {
 
 <!--TABLE EVENTS-->
 
-<br>
-
 		<CENTER>
-<form method="POST">
-{% csrf_token %}
 			<h1>Events</h1>
 <div style="border: 1px; border: solid; width: 58%; padding: 10px">
 
@@ -525,30 +521,35 @@ $(document).ready(function() {
 		</tr>
 	</thead>
 	<tbody>
-		<tr>		
 		{% for event in events %}
+		<tr>		
 			<td>{{event.eventID}}</td>
 			<td>{{event.eventName}}</td>
 			<td>{{event.eventDate}}</td>
 			<td>{{event.eventParticipants}}</td>
-			<td><button type="button" class='btn btn-success' data-toggle="modal" data-target="#modal-{{event.eventID}}"><span aria-hidden="true">JOIN</span></button></td>
+			<td><button type="button" class='btn btn-success' data-toggle="modal" data-target="#joinModal-{{event.eventID}}">JOIN</button></td>	
 		</tr>
 		<!-- Join Modal -->
-		<div class="modal " id="modal-{{event.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal " id="joinModal-{{event.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div hidden><input type="text" id="hiddenID1" name="hiddenID1" value="{{event.eventID}}"></div>
-				<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<div class="modal-content">		
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form method="POST">
+						{% csrf_token %}
+					<body>
+						<div hidden><input type="text" id="hiddenID1" name="hiddenID1" value="{{event.eventID}}"></div>
+					</body>
+					<div class="modal-footer">
+						<button type="submit" id="btnJoin" name="btnJoin" class="btn btn-success">Yes</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>		
+					</div>
+				</form>
 				</div>
-				<div class="modal-footer">
-				<button type="submit" id="btnJoin" name="btnJoin" class="btn btn-success">Yes</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-				</div>
-			</div>
 			</div>
 		</div>
 		{% endfor %}
@@ -564,7 +565,6 @@ $(document).ready(function() {
 	</tfoot>
 </table>
 </div>
-</form>
 </CENTER>
 
 
@@ -576,12 +576,12 @@ $(document).ready(function() {
 {% for h in userinfo %}
 {% if h.isApprove == 0 %}
 <div hidden>
+{% elif h.isApprove == 2 %}
+<div hidden>
 {% else %}	
 <div>
 {% endif %}
 {% endfor %}	
-<form method="POST">
-	{% csrf_token %}
 	<h1>Events Created</h1>
 	<div style="border: 1px; border: solid; width: 58%; padding: 10px;">
 		<table id="example2" class="display" style="width:100%">
@@ -607,19 +607,24 @@ $(document).ready(function() {
 				<div class="modal " id="viewModal-{{test.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 					<div class="modal-content">
-						<div><input type="text" id="hiddenID" name="hiddenID" value="{{test.eventID}}"></div>
+						<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{test.eventID}}"></div>
 						<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+						<h5 class="modal-title" id="exampleModalLabel" style="margin-left: 150px;">{{test.eventName}} Participant/s</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 						</div>
 						<body>
-							wa pa nahuman
+							<ol>
+							{%for participant in participants%}
+								{%if participant.event_id == test.eventID%}
+									<li>{{participant.user_id}}</li>
+								{%endif%}
+							{%endfor%}
+							</ol>
 						</body>
 						<div class="modal-footer">
-						<button type="submit" id="btnCancel" name="btnCancel" class="btn btn-success">Yes</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 					</div>
@@ -627,6 +632,8 @@ $(document).ready(function() {
 				<!-- Cancel Modal -->
 				<div class="modal " id="noModal-{{test.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
+						<form method="POST">
+							{% csrf_token %}
 					<div class="modal-content">
 						<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{test.eventID}}"></div>
 						<div class="modal-header">
@@ -639,6 +646,7 @@ $(document).ready(function() {
 						<button type="submit" id="btnCancel" name="btnCancel" class="btn btn-success">Yes</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
 						</div>
+						</form>
 					</div>
 					</div>
 				</div>
@@ -656,8 +664,10 @@ $(document).ready(function() {
 		</table>
 	</div>
 	<br>
+	<form method="POST">
+		{% csrf_token %}
 	<button name="btnCreateEvent" class="btn btn-info">Create event</button>
-</form>
+	</form>
 </div>
 
 	</CENTER>
@@ -703,16 +713,11 @@ $(document).ready(function() {
 		<div class="contentContact">
 			<div style="background:  #216f73; width: 25%; border-radius:5px; text-align: center; margin-top: 40px; margin-left: 10px; "> 
 				<img src="{% static 'icons/contactus.png' %}" style="width: 50px;">
+				<h4 style="margin-left: 100px;">Inbox</h4>
 			</div>
-			<div style="position: absolute; right: 10px; top: 50px; color: #216f73;">
-				<h4>CONTACT US</h4>
-			</div>
-			<div style=" border:3px solid #216f73; border-radius: 3px; width: 80%; height: 50%; margin-left: 7%; margin-top: 10px;" >
-				<ul style="list-style: none;">
-					<li><a href="">Visit us at Facebook</a></li>
-					<li><a href=""></a></li>
-				</ul>
-			</div>
+				
+				<a href="{% url 'User:notification_view' %}" class="text text-info" style="margin-left: 120px;">View</a>
+			
 			
 			<div class="closeContact" onclick="togglePopupContact()">BACK</div>
 		</div>
@@ -771,7 +776,9 @@ $(document).ready(function() {
 					<div style=" width: 100%; margin: 5px;"><button style=" width: 80%;" type="submit" name="btnUpdate">UPDATE ACCOUNT</button></div>
 				</div>
 				<div class="managebtn2" style="width: 30%; text-align: center; position: absolute; bottom: 3%; left: 35%;">	
-					{% if Users.isApprove == 0 %}
+					{% if Users.isApprove == 2 %}
+					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnOrganizer">BECOME AN ORGANIZER</button>
+					{% elif Users.isApprove == 0 %}
 					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnOrganizer">BECOME AN ORGANIZER</button>
 					{% else %}
 					<div style="height: 35px; width: 100%; margin: 5px; "><button style=" width: 80%; font-size: 10px;" name="btnOrganizer" disabled>ALREADY AN ORGANIZER</button>

@@ -1,0 +1,280 @@
+{% load static %}
+{% block headerinclude %}
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	<title>User Inbox</title>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+			
+			text-decoration: none;
+		}
+		.logo{
+			margin-top: 1px;
+			width: 35px;
+			
+		}
+		div.menulogo{
+			position: absolute;
+			background: #216f73;
+			border-top: 2px solid white;
+			height: 57px;
+			width: 55px;
+			transition: .3s;
+		}
+		div.menulogo:hover{
+			background: #f8c400;
+			cursor: pointer;
+		}
+		
+
+		.icons2 img{
+			width: 35px
+		}
+		div.icons2{
+			background:#216f73;
+			position: fixed;
+			top: -1px;
+			width: 55px;
+			height: 100%;
+		}
+		.icons2 button{
+			height: 60px;
+			width: 100%;
+			background: #216f73;
+			border-bottom: 1px solid white;
+			border-top: 1px solid white;
+			border-right: 1px solid #216f73;
+			border-left: 1px solid #216f73; 
+			outline:none;
+			transition: .3s;
+		}
+		div.sidebar{
+			position: fixed;
+			top: 0px;
+			left: -250px;
+			width: 200px;
+			height: 100%;
+			background: #216f73;
+			transition: all .3s ease;
+			
+
+		}
+		div.sidebar header{
+			font-size: 40px;
+			line-height: 60px;
+			padding-left: 30px;
+			color: white;
+			font-family: Tahoma,Verdana,Segoe,sans-serif;
+			border-top: 1px solid white;
+			
+
+		}
+		div.sidebar button{
+			height: 60px;
+			width: 100%;
+			font-size: 15px;
+			color: white;
+			background: #216f73;
+			border-bottom: 1px solid white;
+			border-top: 1px solid white;
+			border-right: 1px solid #216f73;
+			border-left: 1px solid #216f73;
+			transition: .2s;
+			text-align: left;
+			padding-left: 30px;
+		}
+		ul button:hover{
+			font-size: 18px;
+			color: #216f73;
+			background: #ebebeb;
+			cursor: pointer;
+			
+		}
+		#check{
+			display: none
+		}
+		label #btn, label #cancel{
+			position: absolute;;
+			cursor: pointer;
+
+		}
+		label #btn{
+			left: 10px;
+			top: 10px;
+			transition: all .1s ease;	
+		}
+		label #cancel{
+			font-style: bold;
+			color: white;
+			z-index: 1111;
+			left: -200px;
+			top: 2px;
+		}
+		#check:checked ~ .sidebar{
+			left: 55px;
+		}
+		#check:checked ~ label #btn{
+			left: 250px;
+			opacity: 0;
+			pointer-events: none;
+		}
+		#check:checked ~ label #cancel{
+			left: 220px;
+		}
+		#check:checked ~ section{
+			margin-left: 300px;
+		}
+		section{
+			transition: 0.4s;
+		}
+		.dashboard{
+			margin-left: 60px;
+			width: 93%;
+			height: 98vh;
+		}
+	</style>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#example1').DataTable( {
+        "pagingType": "full_numbers"
+    } );
+} );
+</script>
+
+{% endblock headerinclude %}
+
+{% block footerinclude %}
+
+{% endblock footerinclude %}
+
+{% block content %}
+
+	<div class="icons2">
+		<ul>
+			<li><a href="{% url 'User:dashboard_view' %}" style="color: inherit;"><button><img src="{% static 'icons/logout.png' %}"></button></a></li>
+		</ul>
+	</div>
+
+	<section>
+
+
+
+<!--TABLE EVENTS-->
+
+
+<div class="header1" style="margin-left: 2.9%;margin-bottom: 3%;background-color: #216f73;padding: .89%;color: aliceblue;">
+</div>
+<CENTER>
+	<h1>Notification</h1>
+<div style="border: 1px; border: solid; width: 58%; padding: 10px">
+
+<table id="example1" class="display" style="width:100%">
+<thead>
+<tr>
+	<th>SUBJECT</th>
+	<th>DATE</th>
+	<th>MESSAGE</th>
+	<th>FROM</th>
+</tr>
+</thead>
+<tbody>
+{% for message in messages %}
+<tr>		
+	<td>{{message.notificationSubject}}</td>
+	<td>{{message.notificationDate}}</td>
+	<td>{{message.notificationContent}}</td>
+	<td>{{message.eventID}}-{{message.eventName}}</td>	
+</tr>
+{%endfor%}
+
+</tbody>
+<tfoot>
+<tr>
+	<th>SUBJECT</th>
+	<th>DATE</th>
+	<th>MESSAGE</th>
+	<th>FROM</th>
+</tr>
+</tfoot>
+</table>
+</div>
+</CENTER>
+	  
+	  
+	
+
+</CENTER>
+
+{% endblock content %}
+<!-- Join Modal -->
+<div class="modal " id="joinModal-{{event.eventID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">		
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form method="POST">
+				{% csrf_token %}
+			<body>
+				<div hidden><input type="text" id="hiddenID1" name="hiddenID1" value="{{event.eventID}}"></div>
+			</body>
+			<div class="modal-footer">
+				<button type="submit" id="btnJoin" name="btnJoin" class="btn btn-success">Yes</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>		
+			</div>
+		</form>
+		</div>
+	</div>
+</div>
+
+<!-- Disapprove Modal -->
+<div class="modal " id="noModal-{{request.requestID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{request.user_id}}"></div>
+		<div class="modal-header">
+		<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+		<div class="modal-footer">
+		<button type="submit" id="btnDisapprove" name="btnDisapprove" class="btn btn-success">Yes</button>
+		<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+		</div>
+	</div>
+	</div>
+</div>
+<!-- Approve Modal -->
+<div class="modal " id="yesModal-{{request.requestID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{request.user_id}}"></div>
+		<div class="modal-header">
+		<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+		<div class="modal-footer">
+		<button type="submit" id="btnApprove" name="btnApprove" class="btn btn-success">Yes</button>
+		<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+		</div>
+	</div>
+	</div>
+</div>

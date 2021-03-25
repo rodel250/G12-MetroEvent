@@ -33,6 +33,7 @@ class Event(models.Model):
     eventName = models.CharField(max_length = 50, null=True, blank=True)
     eventDate = models.CharField(max_length = 50, null=True, blank=True)
     eventParticipants = models.IntegerField()
+    isCancelled = models.IntegerField(default = 0)
     class Meta:
         db_table = "Event"
 
@@ -42,3 +43,13 @@ class Participants(models.Model):
     event = models.ForeignKey(Event, null = False, blank = False, on_delete = models.CASCADE, related_name = "eventIDs")
     class Meta:
         db_table = "Participants"
+
+class Notification(models.Model):
+    notificationID = models.AutoField(primary_key = True)
+    notificationDate = models.DateField(default = datetime.now(), null=True, blank=True)
+    notificationSubject = models.CharField(max_length = 50, null=True, blank=True)
+    notificationContent = models.CharField(max_length = 250, null=True, blank=True)
+    user = models.ForeignKey(User,max_length = 50, null = False, blank = False, on_delete = models.CASCADE, related_name = "notificationUser")
+    event = models.ForeignKey(Event, null = False, blank = False, on_delete = models.CASCADE, related_name = "notificationEvent")
+    class Meta:
+        db_table = "Notification"

@@ -13,15 +13,17 @@ class DashboardView(View):
 
 	def get(self, request):
 		username = uniuser()
-		#userinfo = User.objects.filter(username=username)
+		userinfo = User.objects.raw('SELECT * From user,participants where participants.user_id ="'+username+'"and user.username = participants.user_id')
+		participant = Participants.objects.all()
 		test = User.objects.raw('SELECT * FROM user,userrequest WHERE user.username = "'+ username +'" and user.username = userrequest.user_id')
-		test2 = User.objects.raw('SELECT * FROM user,organizer,event,userrequest WHERE user.username = "'+ username +'" and user.username = userrequest.user_id and user.username = organizer.user_id and organizer.organizerID = event.organizer_id')
-		event = Event.objects.raw('SELECT * FROM user,organizer,event,userrequest WHERE user.username != "'+ username +'" and user.username = userrequest.user_id and user.username = organizer.user_id and organizer.organizerID = event.organizer_id')
+		test2 = User.objects.raw('SELECT * FROM user,organizer,event,userrequest WHERE user.username = "'+ username +'" and user.username = userrequest.user_id and user.username = organizer.user_id and organizer.organizerID = event.organizer_id and event.isCancelled != 1')
+		event = Event.objects.raw('SELECT * FROM user,organizer,event,userrequest WHERE user.username != "'+ username +'" and user.username = userrequest.user_id and user.username = organizer.user_id and organizer.organizerID = event.organizer_id and event.isCancelled != 1')
 		context = {
 				'userinfo' : test,
 				'tests': test2,
-				'events': event
-
+				'events': event,
+				'participants': participant,
+				'currentUsers': userinfo
 			}
 
 		return render(request,'METROEVENT_dashboard2.html',context)
@@ -56,32 +58,44 @@ class DashboardView(View):
 			
 			elif 'btnOrganizer' in request.POST:
 				try:
-					Userdetails = UserRequest.objects.get(user_id=uniuser())
+					Userdetails = UserRequest.objects.get(user_id=uniuser(),isApprove = 2)
 					messages.success(request, 'You already sent a request!')
 					return redirect('User:dashboard_view')
 				
 				except UserRequest.DoesNotExist:
-					requestInstance = UserRequest.objects.create(user_id = uniuser(), isApprove = 0)
+					requestInstance = UserRequest.objects.filter(user_id = uniuser(), isApprove = 0).update(isApprove = 2)
 					messages.success(request, 'Succesfully Requested')
 					return redirect('User:dashboard_view')
+
 			elif 'btnCreateEvent'in request.POST:
 				return redirect('User:event_view')
 
 			elif 'btnCancel' in request.POST:
 				hiddenID = request.POST.get("hiddenID")
-				deleteEvent = Event.objects.filter(eventID = hiddenID).delete()
+				eventPP = Participants.objects.filter(event_id = hiddenID)
+
+				deleteEvent = Event.objects.filter(eventID = hiddenID).update(isCancelled = 1)
+				for participants in eventPP:
+					print("test")
+					notificationCancel = Notification.objects.create(notificationSubject = "Cancelled!",notificationContent = "We are sorry to announce that this event has been cancelled!",event_id = hiddenID,user_id = participants.user_id)
+				
 				return redirect('User:dashboard_view')
 			elif 'btnJoin' in request.POST:
-				hiddenID = request.POST.get("hiddenID1")
 				try:
-					participants = Participants.objects.get(event_id = hiddenID)
+					hiddenID = request.POST.get("hiddenID1")
+					#eventName = Event.objects.get(eventID = hiddenID)
+					participants = Participants.objects.get(event_id = hiddenID,user_id = uniuser())
 					messages.success(request, 'You already joined this event')
 					return redirect('User:dashboard_view')
 
 				except Participants.DoesNotExist:
+					hiddenID = request.POST.get("hiddenID1")
+					print(hiddenID)
+					print(uniuser())
 					participateEvent = Participants.objects.create(event_id = hiddenID, user_id = uniuser())
 					countParticipant = Participants.objects.filter(event_id = hiddenID).count()
 					updateParticipants = Event.objects.filter(eventID = hiddenID).update(eventParticipants = countParticipant)
+					notification = Notification.objects.create(notificationSubject = "Welcome!", notificationContent = "Thank you for joining this event, hope you will enjoy!",event_id = hiddenID, user_id = uniuser())
 					messages.success(request, 'Successfully joined')
 					return redirect('User:dashboard_view')	
 			elif 'btnTest'in request.POST:
@@ -126,6 +140,7 @@ class LandingPageView(View):
 				except User.DoesNotExist:
 					form = User(username = uname, firstname = fname, middlename = mname, lastname = lname, password = pword, emailAddress = emailAdd, gender = gender1, birthdate = bdate)
 					form.save()
+					approve = UserRequest.objects.create(user_id = uname, isApprove = 0)
 					messages.success(request, 'User '+ uname +' was registered successfully!')
 					return redirect('User:landing_view')
 
@@ -165,6 +180,23 @@ class EventView(View):
 				eventInstance = Event.objects.create(organizer_id = organizer.organizerID, eventName = eventName1, eventDate = eventDate1, eventParticipants = 0)
 				messages.success(request, 'Successfully created an Event')
 				return redirect('User:dashboard_view')
+
+class NotificationView(View):
+	def get(self, request):
+		message = Notification.objects.raw('Select * from event,notification where user_id = "'+uniuser()+'" and event.eventID = notification.event_id')
+		#message = Notification.objects.filter(user_id = uniuser())
+		context={
+			'messages':message
+		}
+		return render(request, 'Notification.html',context)
+
+	def post(self, request):
+		form = NotificationForm(request.POST)
+		if form.is_valid():
+			
+				return redirect('User:notification_view')
+
+			
 
 			
 

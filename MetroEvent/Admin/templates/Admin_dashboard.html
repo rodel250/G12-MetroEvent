@@ -170,8 +170,6 @@
 	<div class="container">
 		<h1>Organizer Request Dashboard</h1>
 		<br>
-		<form method="post">
-			{% csrf_token %}
 			<div class="row clearfix">
 				<div class="col-md-11 table-responsive"style="margin-left: 5%";>
 					<table class="table table-bordered table-hover" id="tab_logic">
@@ -188,6 +186,7 @@
 								</th>
 							</tr>
 						</thead>
+						
 						<tbody>
 							{% for request in requests %}
 							<div>
@@ -209,6 +208,8 @@
 							<div class="modal " id="noModal-{{request.requestID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 								<div class="modal-content">
+									<form method="post">
+										{% csrf_token %}
 									<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{request.user_id}}"></div>
 									<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
@@ -220,6 +221,7 @@
 									<button type="submit" id="btnDisapprove" name="btnDisapprove" class="btn btn-success">Yes</button>
 									<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
 									</div>
+									</form>
 								</div>
 								</div>
 							</div>
@@ -227,6 +229,8 @@
 							<div class="modal " id="yesModal-{{request.requestID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 								<div class="modal-content">
+									<form method="post">
+										{% csrf_token %}
 									<div hidden><input type="text" id="hiddenID" name="hiddenID" value="{{request.user_id}}"></div>
 									<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
@@ -238,6 +242,7 @@
 									<button type="submit" id="btnApprove" name="btnApprove" class="btn btn-success">Yes</button>
 									<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
 									</div>
+									</form>
 								</div>
 								</div>
 							</div>
@@ -247,7 +252,7 @@
 					</table>
 				</div>
 			</div>
-		</form>
+		
 	</div>
 	  
 	  
