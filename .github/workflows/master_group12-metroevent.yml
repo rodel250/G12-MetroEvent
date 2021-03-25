@@ -31,4 +31,4 @@ jobs:
       with:
         app-name: 'group12-metroevent'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a8b6e162bc6c4782ad6feb577c073137 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8c439ac1e3f74088b5bc53bd9dbb721c }}
