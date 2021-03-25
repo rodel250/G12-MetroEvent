@@ -76,34 +76,34 @@ WSGI_APPLICATION = 'MetroEvent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'metroevent',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
-}
-
 #DATABASES = {
-#   'default': {
+#    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
 #        'NAME': 'metroevent',
-#        'USER': 'Group12@metroevent-db',
-#        'PASSWORD': 'Admin123',
-#        'HOST': 'metroevent-db.mysql.database.azure.com',
+#        'USER': 'root',
+#        'PASSWORD': '',
+#        'HOST': '127.0.0.1',
 #        'PORT': '3306',
 #        'OPTIONS': {
 #        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#        'ssl': True
 #        },
 #    }
 #}
+
+DATABASES = {
+   'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'metroevent',
+        'USER': 'Admin1@metroevent',
+        'PASSWORD': '@dmin123',
+        'HOST': 'metroevent.mysql.database.azure.com',
+        'PORT': '3306',
+        'OPTIONS': {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        'ssl': True
+        },
+    }
+}
 
 # set this to False if you want to turn off pyodbc's connection pooling
 DATABASE_CONNECTION_POOLING = False
