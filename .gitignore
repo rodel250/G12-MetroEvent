@@ -1,4 +1,4 @@
-/MetroEvent/user/__pycache__
-/MetroEvent/__pycache__
-/MetroEvent/user/migrations/__pycache__
+/user/__pycache__
+/__pycache__
+/user/migrations/__pycache__
 *.pyc
