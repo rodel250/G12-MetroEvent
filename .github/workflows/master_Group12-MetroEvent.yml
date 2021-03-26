@@ -32,4 +32,4 @@ jobs:
       with:
         app-name: 'Group12-MetroEvent'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_02504973f1dc46f0bd48609f7ca75598 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5cb15d96e2bd48c8b6b48265f7661daf }}
